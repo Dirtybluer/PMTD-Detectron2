@@ -138,8 +138,9 @@ def register_coco_text(json_file, image_root, mode, subset=None, **metadata):
     assert mode in {"train", "val"}, "mode should be either train or val"
     assert isinstance(subset, (int, type(None))), "subset should be an integer while get {}".format(type(subset))
 
-    DatasetCatalog.register("COCO-Text", lambda: load_coco_text_json(json_file, image_root, mode, subset))
-    MetadataCatalog.get("COCO-Text").set(json_file=json_file, image_root=image_root, **metadata)
+    dataset_name = "coco_text_train" if mode == "train" else "coco_text_val"
+    DatasetCatalog.register(dataset_name, lambda: load_coco_text_json(json_file, image_root, mode, subset))
+    MetadataCatalog.get(dataset_name).set(json_file=json_file, image_root=image_root, **metadata)
 
 
 if __name__ == "__main__":
